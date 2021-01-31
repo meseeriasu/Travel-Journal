@@ -1,15 +1,37 @@
 package com.example.travel_journal.data;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "trip_table")
 public class Trip {
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "name")
     private String name;
+
+    @ColumnInfo(name = "destination")
     private String destination;
+
+    @ColumnInfo(name = "type")
     private String type;
-    private float price;
+
+    @ColumnInfo(name = "price")
+    private int price;
+
+    @ColumnInfo(name = "startDate")
     private String startDate;
+
+    @ColumnInfo(name = "endDate")
     private String endDate;
+
+    @ColumnInfo(name = "rating")
     private float rating;
 
-    Trip(String name, String destination, String type, float price, String startDate, String endDate, int rating) {
+    public Trip(String name, String destination, String type, int price, String startDate, String endDate, float rating) {
         this.name = name;
         this.destination = destination;
         this.type = type;
@@ -31,7 +53,7 @@ public class Trip {
         return type;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -59,7 +81,7 @@ public class Trip {
         this.type = type;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
