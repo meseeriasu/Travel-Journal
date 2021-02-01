@@ -71,7 +71,17 @@ public class HomeFragment extends Fragment {
         rv.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rv, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
+                Intent intent = new Intent(getContext(), TripDetailsActivity.class);
+                List<Trip> trips = tripViewModel.getAllTrips().getValue();
+                Trip trip = trips.get(position);
+                intent.putExtra("name", trip.getName());
+                intent.putExtra("destination", trip.getDestination());
+                intent.putExtra("type", trip.getType());
+                intent.putExtra("price", trip.getPrice());
+                intent.putExtra("startDate", trip.getStartDate());
+                intent.putExtra("endDate", trip.getEndDate());
+                intent.putExtra("rating", trip.getRating());
+                startActivity(intent);
             }
 
             @Override

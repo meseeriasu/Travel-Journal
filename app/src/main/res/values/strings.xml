@@ -32,10 +32,12 @@
     <string name="add_name_error">The name cannot be empty!</string>
     <string name="add_destination_error">The destination cannot be empty!</string>
 
+    <string name="trip_details_title">Trip details</string>
+
     <string name="menu_home">Home</string>
     <string name="menu_about">About Us</string>
     <string name="menu_contact">Contact</string>
     <string name="menu_share">Share</string>
 
-    <string name="about_version">Version 0.9</string>
+    <string name="about_version">Version 0.10</string>
 </resources>
