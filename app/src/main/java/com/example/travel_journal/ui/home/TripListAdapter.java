@@ -1,9 +1,11 @@
 package com.example.travel_journal.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -26,12 +28,15 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.TripVi
         private final TextView tripItemPrice;
         private final RatingBar tripRatingBar;
 
+        public View v;
+
         private TripViewHolder(View itemView) {
             super(itemView);
             tripItemName = itemView.findViewById(R.id.trip_item_name);
             tripItemDestination = itemView.findViewById(R.id.trip_item_destination);
             tripItemPrice = itemView.findViewById(R.id.trip_item_price);
             tripRatingBar = itemView.findViewById(R.id.trip_item_rating);
+            this.v = itemView;
         }
 
         void bind(@NonNull final Trip trip) {

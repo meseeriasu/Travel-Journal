@@ -2,6 +2,7 @@ package com.example.travel_journal.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travel_journal.MainActivity;
 import com.example.travel_journal.R;
-import com.example.travel_journal.data.DataSource;
 import com.example.travel_journal.data.Trip;
 import com.example.travel_journal.data.TripViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +37,9 @@ import static android.app.Activity.RESULT_OK;
 public class HomeFragment extends Fragment {
 
     public static final int NEW_TRIP_ACTIVITY_REQUEST_CODE = 1;
+    public static final int EDIT_TRIP_ACTIVITY_REQUEST_CODE = 2;
+    private static final String TAG = "Home_trip_activity";
+
     private TripViewModel tripViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -65,6 +68,27 @@ public class HomeFragment extends Fragment {
                 startActivityForResult(intent, NEW_TRIP_ACTIVITY_REQUEST_CODE);
             }
         });
+        rv.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rv, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                Intent intent = new Intent(getContext(), EditTripActivity.class);
+                List<Trip> trips = tripViewModel.getAllTrips().getValue();
+                Trip trip = trips.get(position);
+                intent.putExtra("name", trip.getName());
+                intent.putExtra("destination", trip.getDestination());
+                intent.putExtra("type", trip.getType());
+                intent.putExtra("price", trip.getPrice());
+                intent.putExtra("startDate", trip.getStartDate());
+                intent.putExtra("endDate", trip.getEndDate());
+                intent.putExtra("rating", trip.getRating());
+                startActivityForResult(intent, EDIT_TRIP_ACTIVITY_REQUEST_CODE);
+            }
+        }));
         return root;
     }
 
@@ -72,6 +96,7 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_TRIP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Log.i(TAG,":new trip added");
             Trip trip = new Trip(data.getStringExtra("name"),
                     data.getStringExtra("destination"),
                     data.getStringExtra("tripType"),
@@ -81,5 +106,17 @@ public class HomeFragment extends Fragment {
                     data.getFloatExtra("rating",0));
             tripViewModel.insert(trip);
         }
+
+        if( requestCode == EDIT_TRIP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Log.i(TAG, ":edit trip");
+            Trip trip = new Trip(data.getStringExtra("name"),
+                    data.getStringExtra("destination"),
+                    data.getStringExtra("tripType"),
+                    data.getIntExtra("price",0),
+                    data.getStringExtra("startDate"),
+                    data.getStringExtra("endDate"),
+                    data.getFloatExtra("rating",0));
+            tripViewModel.update(trip);
+    }
     }
 }

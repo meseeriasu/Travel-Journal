@@ -16,6 +16,9 @@
         <activity android:name=".ui.home.AddTripActivity"
             android:theme="@style/Theme.Travel_Journal"/>
 
+        <activity android:name=".ui.home.EditTripActivity"
+            android:theme="@style/Theme.Travel_Journal"/>
+
         <activity
             android:name=".ui.SplashScreen"
             android:theme="@style/SplashScreenTheme">
