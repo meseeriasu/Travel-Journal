@@ -42,7 +42,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         aux += intent.getStringExtra("type");
         tripType.setText(aux);
         aux = "Trip price: ";
-        aux += intent.getStringExtra("price");
+        aux += intent.getIntExtra("price",0);
         tripPrice.setText(aux);
         aux = "Tripe start date: ";
         aux += intent.getStringExtra("startDate");

@@ -27,6 +27,7 @@ import com.example.travel_journal.data.TripViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -104,17 +105,21 @@ public class HomeFragment extends Fragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == NEW_TRIP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Log.i(TAG,":new trip added");
+            Log.i(TAG, ":new trip added");
             Trip trip = new Trip(data.getStringExtra("name"),
                     data.getStringExtra("destination"),
                     data.getStringExtra("tripType"),
-                    data.getIntExtra("price",0),
+                    data.getIntExtra("price", 0),
                     data.getStringExtra("startDate"),
                     data.getStringExtra("endDate"),
-                    data.getFloatExtra("rating",0));
-            tripViewModel.insert(trip);
+                    data.getFloatExtra("rating", 0));
+            if(checkDuplicate(trip)) {
+                tripViewModel.insert(trip);
+                Toast.makeText(getActivity(),"Trip added!", Toast.LENGTH_LONG).show();
+            }
+            else
+                Toast.makeText(getActivity(),"There is already a trip with this name!", Toast.LENGTH_LONG).show();
         }
 
         if( requestCode == EDIT_TRIP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -127,6 +132,16 @@ public class HomeFragment extends Fragment {
                     data.getStringExtra("endDate"),
                     data.getFloatExtra("rating",0));
             tripViewModel.update(trip);
+            Toast.makeText(getActivity(),"Trip edited!", Toast.LENGTH_LONG).show();
+        }
     }
+
+    public boolean checkDuplicate(Trip trip) {
+        List<Trip> tripsDuplicate = tripViewModel.getAllTrips().getValue();
+        for(int i=0;i<tripsDuplicate.size();i++){
+            if(tripsDuplicate.get(i).getName().equals(trip.getName()))
+                return false;
+        }
+        return true;
     }
 }
